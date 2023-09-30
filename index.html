@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #container {
+            width: 40%;
+            border: 1px solid black;
+            margin: auto;
+            padding: 3%;
+            background: antiquewhite;
+            font-size: 18px;
+            font-family: cursive;
+            color: purple;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-top-left-radius: 50px;
+            border-bottom-right-radius: 60px;
+        }
+
+        #author {
+            margin: 6% 0 4% 0;
+            text-align: right;
+            font-size: medium;
+            font-style: italic;
+        }
+
+        button {
+            margin: 3% auto 0;
+            padding: 10px 10px;
+            width: 30%;
+            background: purple;
+            color: #fff;
+            font-size: 19px;
+            font-family: emoji;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all .2s ease-in;
+        }
+        button:hover {
+            background-color: #fff;
+            color: purple;
+            border: 1px solid purple;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h3 id="quotes"></h3>
+        <div id="author"></div>
+        <button id="btn">New Quotes</button>
+    </div>
+    <script>
+        const btnEl = document.getElementById('btn')
+        let authorEl = document.getElementById('author')
+        let quotesEl = document.getElementById('quotes')
+
+        const getRandomQuotes = (data) => {
+            let randomNumber = Math.floor(Math.random() * 10)
+            authorEl.innerHTML = `-${data[randomNumber].author}`
+            quotesEl.innerHTML = data[randomNumber].text
+        }
+
+        const getQuotes = async () => {
+            const api = 'https://type.fit/api/quotes'
+            try {
+                let data = await fetch(api)
+                data = await data.json()
+                console.log(data);
+                getRandomQuotes(data)
+                btnEl.addEventListener('click', () => getRandomQuotes(data))
+            }
+            catch { }
+        }
+        getQuotes()
+    </script>
+</body>
+
+</html>
